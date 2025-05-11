@@ -7,11 +7,10 @@ using namespace genv;
 using namespace std;
 
 const color black(0,0,0), grey(200,200,200), white(255,255,255);
-const int defaultMin = 1, defaultMax = 9;
-const int padding = 3;
+const int defaultMin = 0, defaultMax = 9;
 
-SudokuNumber::SudokuNumber(App *parent, int _x, int _y, int _sx, int _sy, int _sx, int _sy):
-    Widget(parent, _x, _y, 0, 0), minErtek(defaultMin), maxErtek(defaultMax)
+SudokuNumber::SudokuNumber(App *parent, int _x, int _y, int _sx, int _sy):
+    Widget(parent, _x, _y, _sx, _sy), ertek(0), minErtek(defaultMin), maxErtek(defaultMax)
 {
 
 }
@@ -24,16 +23,12 @@ void SudokuNumber::draw() const
     int numH = gout.cascent();
     int numW = gout.twidth("1");
 
-
-    gout << black
-         << move_to(x+padding, y + sy/2 - numH/2)
-         << text(to_string(ertek));
-
-    // draw cursor
-    gout << black
-         << move_to(x+padding + to_string(ertek).size()*numW, y+padding)
-         << line(0, sy-padding*2);
-
+    if (ertek != 0)
+    {
+        gout << black
+             << move_to(x + (sx - numW)/2, y + (sy - numH)/2)
+             << text(to_string(ertek));
+    }
 }
 
 void SudokuNumber::handle(event ev)
@@ -49,21 +44,20 @@ void SudokuNumber::handle(event ev)
         else if (ev.keycode == key_pgup && ertek+10 < maxErtek)
             ertek += 10;
 
-
         // szam beirasa a widgetbe
         if (!ev.keyutf8.empty() && ev.keyutf8.size() == 1 &&
             ev.keyutf8[0] >= '0' && ev.keyutf8[0] <= '9')
         {
             // beirt szam beallitasa
             int number = ev.keyutf8[0] - '0';
-            setErtek(ertek*10 + number);
+            setErtek(number);
         }
     }
 }
 
 void SudokuNumber::setErtek(int ujErtek)
 {
-    if (ertek <= maxErtek && ertek >= minErtek )
+    if (ertek >= minErtek && ertek <= maxErtek)
         ertek = ujErtek;
 }
 

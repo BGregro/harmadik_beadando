@@ -9,7 +9,7 @@ class SudokuApp : public App
 public:
     SudokuApp(int, int);
 protected:
-    std::vector<NumberBox*> tiles;
+    std::vector<SudokuNumber*> tiles;
 };
 
 #endif // SUDOKUAPP_HPP
