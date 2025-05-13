@@ -10,7 +10,7 @@ protected:
 public:
     SudokuGame();
 
-    void update();
+    void setCell(int row, int col, int ertek);
 
     bool isValidMove(int row, int col, int num);
     bool isFull() const;

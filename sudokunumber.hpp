@@ -9,6 +9,7 @@ class SudokuNumber : public Widget
 protected:
     int ertek, minErtek, maxErtek;
     int row, col;
+    bool valid;
     std::function<void()> onValueChanged;
 public:
     SudokuNumber(App *parent, int _x, int _y, int _sx, int _sy,
@@ -21,12 +22,18 @@ public:
     void action();
 
     void setErtek(int);
+    /*
     void novelNum();
     void csokkentNum();
+    */
     void clear();
 
+    void setValid(bool);
+
     int getErtek() const;
-    std::string getValueString() const override;
+    int getRow() const;
+    int getCol() const;
+
 };
 
 // TODO:

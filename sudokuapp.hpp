@@ -12,16 +12,16 @@ protected:
     SudokuGame sg;
 public:
     SudokuApp(int, int);
-    void updateBoard();
+    void update();
 };
 
 // Ötletek:
     // sudoku-ban lock-olni a már kész sorokat/oszlopokat/3x3masokat
-    // TODO: highlight errors
+    // TODO: highlight errors -> hogyan?
+        // amikor rossz számot ír be, akkor jelölje be az egyező számot is ?
     // ?: nyilakkal navigalni tile-ok között?
     // nem csak a kijelölt négyzet, de annak a sora és oszlopa is ki legyen jelölve?
         // ez lehet olyan, hogy pl segítség bekapcsolása/kiválasztása
-    // amikor rossz számot ír be, akkor jelölje be az egyező számot is
 
 
 #endif // SUDOKUAPP_HPP

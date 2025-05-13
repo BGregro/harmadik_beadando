@@ -1,7 +1,5 @@
 #include "sudokugame.hpp"
 
-using namespace std;
-
 const int gameSize = 9;
 
 SudokuGame::SudokuGame()
@@ -40,7 +38,7 @@ bool SudokuGame::isFull() const
     return true;
 }
 
-void SudokuGame::update()
+void SudokuGame::setCell(int row, int col, int ertek)
 {
-
+    board[row][col] = ertek;
 }

@@ -5,7 +5,7 @@
 using namespace genv;
 using namespace std;
 
-const color black(0,0,0), grey(200,200,200), white(255,255,255);
+const color black(0,0,0), grey(200,200,200), white(255,255,255), red(255,0,0);
 const int defaultMin = 0, defaultMax = 9;
 
 enum State
@@ -14,7 +14,9 @@ enum State
 };
 
 SudokuNumber::SudokuNumber(App *parent, int _x, int _y, int _sx, int _sy, int r, int c, std::function<void()> f):
-    Widget(parent, _x, _y, _sx, _sy), ertek(0), minErtek(defaultMin), maxErtek(defaultMax), row(r), col(c), onValueChanged(f)
+    Widget(parent, _x, _y, _sx, _sy), ertek(0),
+    minErtek(defaultMin), maxErtek(defaultMax), row(r), col(c), valid(true),
+    onValueChanged(f)
 {
 
 }
@@ -31,9 +33,14 @@ void SudokuNumber::draw() const
 
     if (ertek != 0)
     {
-        gout << black
-             << move_to(x + (sx - numW)/2, y + (sy - numH)/2)
-             << text(to_string(ertek));
+        if (valid)
+            gout << black
+                 << move_to(x + (sx - numW)/2, y + (sy - numH)/2)
+                 << text(to_string(ertek));
+        else
+            gout << red
+                 << move_to(x + (sx - numW)/2, y + (sy - numH)/2)
+                 << text(to_string(ertek));
     }
 }
 
@@ -73,6 +80,7 @@ void SudokuNumber::setErtek(int ujErtek)
     }
 }
 
+/*
 void SudokuNumber::novelNum()
 {
     if (ertek < maxErtek)
@@ -84,17 +92,26 @@ void SudokuNumber::csokkentNum()
     if (ertek > minErtek)
         --ertek;
 }
+*/
+
+void SudokuNumber::setValid(bool newValid)
+{
+    valid = newValid;
+}
 
 int SudokuNumber::getErtek() const
 {
     return ertek;
 }
 
-string SudokuNumber::getValueString() const
+int SudokuNumber::getRow() const
 {
-    return to_string(ertek);
+    return row;
 }
 
-
+int SudokuNumber::getCol() const
+{
+    return col;
+}
 
 
