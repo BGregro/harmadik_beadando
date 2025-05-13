@@ -1,7 +1,6 @@
 #include "sudokunumber.hpp"
 #include "graphics.hpp"
 #include <string>
-#include <iostream>
 
 using namespace genv;
 using namespace std;
@@ -9,8 +8,13 @@ using namespace std;
 const color black(0,0,0), grey(200,200,200), white(255,255,255);
 const int defaultMin = 0, defaultMax = 9;
 
-SudokuNumber::SudokuNumber(App *parent, int _x, int _y, int _sx, int _sy):
-    Widget(parent, _x, _y, _sx, _sy), ertek(0), minErtek(defaultMin), maxErtek(defaultMax)
+enum State
+{
+
+};
+
+SudokuNumber::SudokuNumber(App *parent, int _x, int _y, int _sx, int _sy, int r, int c, std::function<void()> f):
+    Widget(parent, _x, _y, _sx, _sy), ertek(0), minErtek(defaultMin), maxErtek(defaultMax), row(r), col(c), onValueChanged(f)
 {
 
 }
@@ -38,7 +42,7 @@ void SudokuNumber::handle(event ev)
     if (ev.type == ev_key && ev.keycode > 0)
     {
         if (ev.keycode == key_backspace)
-            ertek = 0;
+            clear();
 
         // szam beirasa a widgetbe
         if (!ev.keyutf8.empty() && ev.keyutf8.size() == 1 &&
@@ -50,10 +54,23 @@ void SudokuNumber::handle(event ev)
     }
 }
 
+void SudokuNumber::action()
+{
+    onValueChanged();
+}
+
+void SudokuNumber::clear()
+{
+    ertek = 0;
+}
+
 void SudokuNumber::setErtek(int ujErtek)
 {
-    if (ertek >= minErtek && ertek <= maxErtek)
+    if (ertek >= minErtek && ertek <= maxErtek && ujErtek != ertek)
+    {
         ertek = ujErtek;
+        action(); // amikor megvaltozik az ertek, akkor update-eli a jatekot az app-on keresztul
+    }
 }
 
 void SudokuNumber::novelNum()

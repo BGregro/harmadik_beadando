@@ -16,7 +16,8 @@ SudokuApp::SudokuApp(int szeles, int magas):
         int x = (50+col) + tileSize*col + (col/3 * 3); // minden 3. tile utan vastagabb vonal
         int y = (50+row) + tileSize*row + (row/3 * 3);
 
-        tiles.push_back(new SudokuNumber(this, x, y, tileSize, tileSize));
+        tiles.push_back(new SudokuNumber(this, x, y, tileSize, tileSize, row, col,
+                                         [&](){updateBoard();}));
 
         tiles[i]->draw();
     }
@@ -25,4 +26,9 @@ SudokuApp::SudokuApp(int szeles, int magas):
         w->draw();
 
     gout << refresh;
+}
+
+void SudokuApp::updateBoard()
+{
+
 }

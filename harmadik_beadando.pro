@@ -8,6 +8,7 @@ SOURCES += \
         main.cpp \
         graphics/graphics.cpp \
         sudokuapp.cpp \
+        sudokugame.cpp \
         sudokunumber.cpp \
         widget.cpp
 
@@ -30,5 +31,6 @@ DEPENDPATH += $$PWD/SDL2
 HEADERS += \
     app.hpp \
     sudokuapp.hpp \
+    sudokugame.hpp \
     sudokunumber.hpp \
     widget.hpp
