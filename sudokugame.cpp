@@ -6,12 +6,13 @@ SudokuGame::SudokuGame()
 {
     for (int i = 0; i < gameSize; ++i)
         board.push_back({0,0,0,0,0,0,0,0,0});
-
 }
 
-bool SudokuGame::isValidMove(int row, int col, int num) {
+bool SudokuGame::isValidMove(int row, int col, int num)
+{
     // sor, oszlop check
-    for (int i = 0; i < gameSize; i++) {
+    for (int i = 0; i < gameSize; i++)
+    {
         if (board[row][i] == num || board[i][col] == num)
             return false;
     }
@@ -19,8 +20,10 @@ bool SudokuGame::isValidMove(int row, int col, int num) {
     // 3x3 check
     int startRow = row - row % 3;
     int startCol = col - col % 3;
-    for (int i = startRow; i < startRow + 3; i++) {
-        for (int j = startCol; j < startCol + 3; j++) {
+    for (int i = startRow; i < startRow + 3; i++)
+    {
+        for (int j = startCol; j < startCol + 3; j++)
+        {
             if (board[i][j] == num)
                 return false;
         }
@@ -38,7 +41,12 @@ bool SudokuGame::isFull() const
     return true;
 }
 
-void SudokuGame::setCell(int row, int col, int ertek)
+void SudokuGame::setCell(int row, int col, int num)
 {
-    board[row][col] = ertek;
+    board[row][col] = num;
+}
+
+int SudokuGame::getCell(int row, int col)
+{
+    return board[row][col];
 }

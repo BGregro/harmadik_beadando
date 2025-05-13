@@ -9,6 +9,7 @@ SOURCES += \
         graphics/graphics.cpp \
         sudokuapp.cpp \
         sudokugame.cpp \
+        sudokugenerator.cpp \
         sudokunumber.cpp \
         widget.cpp
 
@@ -32,5 +33,6 @@ HEADERS += \
     app.hpp \
     sudokuapp.hpp \
     sudokugame.hpp \
+    sudokugenerator.hpp \
     sudokunumber.hpp \
     widget.hpp

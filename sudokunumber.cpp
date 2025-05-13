@@ -13,9 +13,13 @@ enum State
 
 };
 
-SudokuNumber::SudokuNumber(App *parent, int _x, int _y, int _sx, int _sy, int r, int c, std::function<void()> f):
-    Widget(parent, _x, _y, _sx, _sy), ertek(0),
-    minErtek(defaultMin), maxErtek(defaultMax), row(r), col(c), valid(true),
+SudokuNumber::SudokuNumber(App *parent, int _x, int _y, int _sx, int _sy,
+                           int r, int c,
+                           int num, bool lock,
+                           std::function<void()> f):
+    Widget(parent, _x, _y, _sx, _sy),
+    ertek(num), minErtek(defaultMin), maxErtek(defaultMax),
+    row(r), col(c), locked(lock), valid(true),
     onValueChanged(f)
 {
 
@@ -80,6 +84,10 @@ void SudokuNumber::setErtek(int ujErtek)
     }
 }
 
+void SudokuNumber::setLocked(bool lock)
+{
+    locked = lock;
+}
 /*
 void SudokuNumber::novelNum()
 {

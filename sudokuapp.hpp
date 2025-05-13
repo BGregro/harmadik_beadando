@@ -4,6 +4,7 @@
 #include "app.hpp"
 #include "sudokunumber.hpp"
 #include "sudokugame.hpp"
+#include "sudokugenerator.hpp"
 
 class SudokuApp : public App
 {
@@ -12,6 +13,8 @@ protected:
     SudokuGame sg;
 public:
     SudokuApp(int, int);
+
+    void generateBoard(Difficulty diff);
     void update();
 };
 
@@ -20,8 +23,13 @@ public:
     // TODO: highlight errors -> hogyan?
         // amikor rossz számot ír be, akkor jelölje be az egyező számot is ?
     // ?: nyilakkal navigalni tile-ok között?
+
     // nem csak a kijelölt négyzet, de annak a sora és oszlopa is ki legyen jelölve?
         // ez lehet olyan, hogy pl segítség bekapcsolása/kiválasztása
 
+    // a pálya eleinte ne legyen legenerálva
+        // egy menüvel ki lehessen választani, hogy milyen a nehézség
+        // utána egy gombbal lehessen generálni
+        // egy másik gomb legyen clear-elésre/újra generálásra
 
 #endif // SUDOKUAPP_HPP

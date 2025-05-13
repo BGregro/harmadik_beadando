@@ -9,11 +9,12 @@ class SudokuNumber : public Widget
 protected:
     int ertek, minErtek, maxErtek;
     int row, col;
-    bool valid;
+    bool locked, valid;
     std::function<void()> onValueChanged;
 public:
     SudokuNumber(App *parent, int _x, int _y, int _sx, int _sy,
                  int r, int c,
+                 int num, bool lock,
                  std::function<void()> f);
 
     void draw() const override;
@@ -22,6 +23,7 @@ public:
     void action();
 
     void setErtek(int);
+    void setLocked(bool lock);
     /*
     void novelNum();
     void csokkentNum();
@@ -39,5 +41,6 @@ public:
 // TODO:
     // lehessen növelni le/fel gombokkal is?
     // ertek csak 1-9 között legyen és legyen egy külön state törölt-re?
+
 
 #endif // SUDOKUNUMBER_HPP
