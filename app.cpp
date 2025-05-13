@@ -38,7 +38,15 @@ void App::event_loop()
     {
         if (ev.type == ev_mouse && ev.button == btn_left)
         {
+            if (focus != nullptr) {
+                focus->setSelected(false);
+            }
+
             focus = selectWidget(ev.pos_x, ev.pos_y);
+
+            if (focus != nullptr) {
+                focus->setSelected(true);
+            }
         }
 
         for (Widget *w : widgets)

@@ -10,6 +10,7 @@ class Widget
 protected:
     App *parent;
     int x, y, sx, sy;
+    bool selected;
 public:
     Widget(App *parent, int x, int y, int sx, int sy);
 
@@ -17,8 +18,10 @@ public:
     virtual void draw() const = 0;
     virtual void handle(genv::event ev) = 0;
 
-    virtual std::string getValueString() const { return ""; }
+    virtual void setSelected(bool isSelected);
+    virtual bool isSelected() const;
 
+    virtual std::string getValueString() const { return ""; }
 };
 
 #endif // WIDGET_HPP

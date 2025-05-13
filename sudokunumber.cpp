@@ -17,8 +17,10 @@ SudokuNumber::SudokuNumber(App *parent, int _x, int _y, int _sx, int _sy):
 
 void SudokuNumber::draw() const
 {
-    // Draw main box background (number area + arrows)
-    gout << white << move_to(x, y) << box(sx, sy);
+    if (selected)
+        gout << grey << move_to(x, y) << box(sx, sy);
+    else
+        gout << white << move_to(x, y) << box(sx, sy);
 
     int numH = gout.cascent();
     int numW = gout.twidth("1");
@@ -33,22 +35,15 @@ void SudokuNumber::draw() const
 
 void SudokuNumber::handle(event ev)
 {
-    if (ev.type == ev_key && ev.keycode > 0) // key felengedesenel ne fusson le megegyszer
+    if (ev.type == ev_key && ev.keycode > 0)
     {
         if (ev.keycode == key_backspace)
-        {
-            ertek = ertek/10;
-        }
-        else if (ev.keycode == key_pgdn && ertek-10 > minErtek)
-            ertek -= 10;
-        else if (ev.keycode == key_pgup && ertek+10 < maxErtek)
-            ertek += 10;
+            ertek = 0;
 
         // szam beirasa a widgetbe
         if (!ev.keyutf8.empty() && ev.keyutf8.size() == 1 &&
             ev.keyutf8[0] >= '0' && ev.keyutf8[0] <= '9')
         {
-            // beirt szam beallitasa
             int number = ev.keyutf8[0] - '0';
             setErtek(number);
         }
