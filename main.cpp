@@ -2,7 +2,7 @@
 
 int main()
 {
-    SudokuApp app(600,600);
+    SudokuApp app(800,800);
     app.event_loop();
 
     return 0;

@@ -1,0 +1,10 @@
+debug/app.o
+debug/gomb.o
+debug/legordulowidget.o
+debug/main.o
+debug/graphics.o
+debug/sudokuapp.o
+debug/sudokugame.o
+debug/sudokugenerator.o
+debug/sudokunumber.o
+debug/widget.o

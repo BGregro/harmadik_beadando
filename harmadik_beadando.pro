@@ -5,6 +5,8 @@ CONFIG -= qt
 
 SOURCES += \
         app.cpp \
+        gomb.cpp \
+        legordulowidget.cpp \
         main.cpp \
         graphics/graphics.cpp \
         sudokuapp.cpp \
@@ -31,6 +33,8 @@ DEPENDPATH += $$PWD/SDL2
 
 HEADERS += \
     app.hpp \
+    gomb.hpp \
+    legordulowidget.hpp \
     sudokuapp.hpp \
     sudokugame.hpp \
     sudokugenerator.hpp \

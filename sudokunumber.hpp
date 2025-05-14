@@ -13,8 +13,7 @@ protected:
     std::function<void()> onValueChanged;
 public:
     SudokuNumber(App *parent, int _x, int _y, int _sx, int _sy,
-                 int r, int c,
-                 int num, bool lock,
+                 int r, int c, int num,
                  std::function<void()> f);
 
     void draw() const override;

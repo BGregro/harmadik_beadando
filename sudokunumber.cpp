@@ -14,12 +14,11 @@ enum State
 };
 
 SudokuNumber::SudokuNumber(App *parent, int _x, int _y, int _sx, int _sy,
-                           int r, int c,
-                           int num, bool lock,
+                           int r, int c, int num,
                            std::function<void()> f):
     Widget(parent, _x, _y, _sx, _sy),
     ertek(num), minErtek(defaultMin), maxErtek(defaultMax),
-    row(r), col(c), locked(lock), valid(true),
+    row(r), col(c), locked(false), valid(true),
     onValueChanged(f)
 {
 

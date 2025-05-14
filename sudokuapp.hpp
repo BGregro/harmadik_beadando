@@ -5,15 +5,22 @@
 #include "sudokunumber.hpp"
 #include "sudokugame.hpp"
 #include "sudokugenerator.hpp"
+#include "gomb.hpp"
+#include "legordulowidget.hpp"
 
 class SudokuApp : public App
 {
 protected:
     std::vector<SudokuNumber*> tiles;
     SudokuGame sg;
+    Gomb *generate;
+    LegorduloWidget *difficulty;
 public:
     SudokuApp(int, int);
 
+    Difficulty getDifficulty();
+
+    void resetTiles();
     void generateBoard(Difficulty diff);
     void update();
 };

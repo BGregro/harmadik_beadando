@@ -21,8 +21,7 @@ SudokuApp::SudokuApp(int szeles, int magas):
         int x = (25+col) + tileSize*col + (col/3 * 3); // minden 3. tile utan vastagabb vonal
         int y = (25+row) + tileSize*row + (row/3 * 3);
 
-        tiles.push_back(new SudokuNumber(this, x, y, tileSize, tileSize, row, col,
-                                         sg.getCell(row, col), false,
+        tiles.push_back(new SudokuNumber(this, x, y, tileSize, tileSize, row, col, 0,
                                          [&](){update();}));
 
         tiles[i]->draw();
@@ -30,16 +29,47 @@ SudokuApp::SudokuApp(int szeles, int magas):
 
     generateBoard(Difficulty::Easy);
 
+    vector<string> difficulties = {"Easy", "Medium", "Hard"};
+    difficulty = new LegorduloWidget(this, 500, 50, 3, difficulties);
+
+    generate = new Gomb(this, 500, 150, 100, 50, "Generálás", [&](){generateBoard(getDifficulty());});
+
     for (Widget *w : widgets)
         w->draw();
 
     gout << refresh;
 }
 
+Difficulty SudokuApp::getDifficulty()
+{
+    string diff = difficulty->getSelected();
+
+    if (diff == "Easy")
+        return Difficulty::Easy;
+    else if (diff == "Medium")
+        return Difficulty::Medium;
+    else if (diff == "Hard")
+        return Difficulty::Hard;
+    else
+        return Difficulty::Medium;
+}
+
+// default értékek visszaállítása
+void SudokuApp::resetTiles()
+{
+    for (int i = 0; i < tileNum; ++i)
+    {
+        tiles[i]->setErtek(0);
+        tiles[i]->setLocked(false);
+        tiles[i]->setValid(true);
+    }
+}
+
 void SudokuApp::generateBoard(Difficulty diff)
 {
     sg = SudokuGenerator::generate(diff);
 
+    resetTiles();
 
     for (int i = 0; i < tileNum; ++i)
     {

@@ -1,0 +1,10 @@
+release/app.o
+release/gomb.o
+release/legordulowidget.o
+release/main.o
+release/graphics.o
+release/sudokuapp.o
+release/sudokugame.o
+release/sudokugenerator.o
+release/sudokunumber.o
+release/widget.o
