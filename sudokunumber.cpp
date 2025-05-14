@@ -27,7 +27,9 @@ SudokuNumber::SudokuNumber(App *parent, int _x, int _y, int _sx, int _sy,
 
 void SudokuNumber::draw() const
 {
-    if (selected)
+    if (locked)
+        gout << color(173, 216, 230) << move_to(x, y) << box(sx, sy);
+    else if (selected)
         gout << grey << move_to(x, y) << box(sx, sy);
     else
         gout << white << move_to(x, y) << box(sx, sy);
@@ -60,7 +62,7 @@ void SudokuNumber::handle(event ev)
             ev.keyutf8[0] >= '0' && ev.keyutf8[0] <= '9')
         {
             int number = ev.keyutf8[0] - '0';
-            setErtek(number);
+            ujErtek(number);
         }
     }
 }
@@ -75,11 +77,21 @@ void SudokuNumber::clear()
     ertek = 0;
 }
 
-void SudokuNumber::setErtek(int ujErtek)
+void SudokuNumber::setErtek(int uj)
 {
-    if (ertek >= minErtek && ertek <= maxErtek && ujErtek != ertek)
+    if (ertek >= minErtek && ertek <= maxErtek && uj != ertek)
     {
-        ertek = ujErtek;
+        ertek = uj;
+    }
+}
+
+void SudokuNumber::ujErtek(int uj)
+{
+    if (!locked &&
+        ertek >= minErtek && ertek <= maxErtek &&
+        uj != ertek)
+    {
+        ertek = uj;
         action(); // amikor megvaltozik az ertek, akkor update-eli a jatekot az app-on keresztul
     }
 }

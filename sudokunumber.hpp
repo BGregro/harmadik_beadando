@@ -23,6 +23,7 @@ public:
     void action();
 
     void setErtek(int);
+    void ujErtek(int);
     void setLocked(bool lock);
     /*
     void novelNum();

@@ -106,29 +106,30 @@ SudokuGame SudokuGenerator::generate(Difficulty diff)
     // annyi cell lenullázása, amennyi a difficulty alapján be van állítva
     int holes = holesForDifficulty(diff);
     int removed = 0;
-    bool done = false;
+
+    // index párok létrehozása
+    vector<pair<int, int>> indices;
+    for (int row = 0; row < 9; ++row)
+        for (int col = 0; col < 9; ++col)
+            indices.emplace_back(row, col);
+
+    // index párok random sorrendbe keverése
+    static std::mt19937 rng(std::random_device{}());
+    shuffle(indices.begin(), indices.end(), rng);
 
     // TODO: ez mindig a pálya elejéről töröl -> kijavítani
-    for (int i = 0; i < 9 && !done; ++i)
+    for (auto [row, col] : indices)
     {
-        for (int j = 0; j < 9; ++j)
-        {
-            int backup = filled.getCell(i, j);
-            filled.setCell(i, j, 0);
+        int backup = filled.getCell(row, col);
+        filled.setCell(row, col, 0);
 
-            if (countSolutions(filled) != 1)
-            {
-                filled.setCell(i, j, backup); // visszaállítás, ha nem egyértelmű
-            }
-            else
-                ++removed;
+        if (countSolutions(filled) != 1)
+            filled.setCell(row, col, backup); // ha nem egyértelmű, akkor visszarakja a számot
+        else
+            ++removed;
 
-            if (removed >= holes)
-            {
-                break;
-                done = true;
-            }
-        }
+        if (removed >= holes)
+            break;
     }
 
     return filled;
