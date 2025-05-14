@@ -15,14 +15,17 @@ protected:
     SudokuGame sg;
     Gomb *generate;
     LegorduloWidget *difficulty;
+    bool allValid;
 public:
     SudokuApp(int, int);
 
     Difficulty getDifficulty();
 
     void resetTiles();
-    void generateBoard(Difficulty diff);
-    void update();
+    void generateBoard(Difficulty);
+
+    void checkValid(int, int);
+    void update(int, int);
 };
 
 // Ötletek:

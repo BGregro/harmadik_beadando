@@ -15,7 +15,7 @@ enum State
 
 SudokuNumber::SudokuNumber(App *parent, int _x, int _y, int _sx, int _sy,
                            int r, int c, int num,
-                           std::function<void()> f):
+                           std::function<void(int, int)> f):
     Widget(parent, _x, _y, _sx, _sy),
     ertek(num), minErtek(defaultMin), maxErtek(defaultMax),
     row(r), col(c), locked(false), valid(true),
@@ -68,7 +68,7 @@ void SudokuNumber::handle(event ev)
 
 void SudokuNumber::action()
 {
-    onValueChanged();
+    onValueChanged(row, col);
 }
 
 void SudokuNumber::clear()

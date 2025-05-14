@@ -6,10 +6,10 @@ using namespace std;
 
 using namespace genv;
 
-const int tileSize = 50, tileNum = 81;
+const int tileSize = 50;
 
 SudokuApp::SudokuApp(int szeles, int magas):
-    App(szeles, magas)
+    App(szeles, magas), allValid(true)
 {
 
     tiles.resize(9, std::vector<SudokuNumber*>(9, nullptr)); // a 2D-s vektor inicializálása
@@ -23,7 +23,7 @@ SudokuApp::SudokuApp(int szeles, int magas):
             int y = (25+row) + tileSize*row + (row/3 * 3);
 
             tiles[row][col] = new SudokuNumber(this, x, y, tileSize, tileSize, row, col, 0,
-                                               [&](){update();});
+                                               [&](int row, int col){update(row, col);});
         }
 
     }
@@ -34,6 +34,7 @@ SudokuApp::SudokuApp(int szeles, int magas):
     difficulty = new LegorduloWidget(this, 500, 50, 3, difficulties);
 
     generate = new Gomb(this, 500, 150, 100, 50, "Generálás", [&](){generateBoard(getDifficulty());});
+
 
     for (Widget *w : widgets)
         w->draw();
@@ -90,28 +91,64 @@ void SudokuApp::generateBoard(Difficulty diff)
     }
 }
 
-
-void SudokuApp::update()
+void SudokuApp::checkValid(int row, int col)
 {
-    bool allValid = true;
+    int ertek = sg.getCell(row, col);
+    tiles[row][col]->setErtek(0); // hogy magát ne ellenőrizze
 
-    for (int row = 0; row < 9; ++row)
+    allValid = true;
+
+    // azonos sor ellenőrzése
+    for (int c = 0; c < 9; ++c)
     {
-        for (int col = 0; col < 9; ++col)
+        if (tiles[row][c]->getErtek() == ertek)
         {
-            int ertek = tiles[row][col]->getErtek();
-            sg.setCell(row, col, 0);
+            tiles[row][c]->setValid(false);
+            allValid = false;
+        }
+        else
+            tiles[row][c]->setValid(true);
+    }
 
-            // TODO: ezt csak annál kéne megváltoztatni, amelyiket átírtam (?)
-            bool isValid = (ertek == 0 || sg.isValidMove(row, col, ertek));
+    // azonos oszlop ellenőrzése
+    for (int r = 0; r < 9; ++r)
+    {
+        if (tiles[r][col]->getErtek() == ertek)
+        {
+            tiles[r][col]->setValid(false);
+            allValid = false;
+        }
+        else
+            tiles[r][col]->setValid(true);
+    }
 
-            sg.setCell(row, col, ertek);
-            tiles[row][col]->setValid(isValid);
+    // azonos blokk ellenőrzése
+    int startRow = row - row % 3;
+    int startCol = col - col % 3;
 
-            if (!isValid)
+    for (int r = startRow; r < startRow + 3; ++r)
+    {
+        for (int c = startCol; c < startCol + 3; ++c)
+        {
+            if (tiles[r][c]->getErtek() == ertek)
+            {
+                tiles[r][c]->setValid(false);
                 allValid = false;
+            }
+            else
+                tiles[r][c]->setValid(true);
         }
     }
+
+    tiles[row][col]->setErtek(ertek); // érték visszaállítása
+}
+
+void SudokuApp::update(int row, int col)
+{
+    // board frissítése az aktuális értékkel
+    sg.setCell(row, col, tiles[row][col]->getErtek());
+
+    checkValid(row, col);
 
     if (allValid && sg.isFull())
     {
