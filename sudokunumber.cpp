@@ -74,6 +74,7 @@ void SudokuNumber::action()
 void SudokuNumber::clear()
 {
     ertek = 0;
+    action();
 }
 
 void SudokuNumber::setErtek(int uj)

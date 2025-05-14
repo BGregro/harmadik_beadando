@@ -11,7 +11,7 @@
 class SudokuApp : public App
 {
 protected:
-    std::vector<SudokuNumber*> tiles;
+    std::vector<std::vector<SudokuNumber*>> tiles;
     SudokuGame sg;
     Gomb *generate;
     LegorduloWidget *difficulty;
@@ -37,6 +37,9 @@ public:
     // a pálya eleinte ne legyen legenerálva
         // egy menüvel ki lehessen választani, hogy milyen a nehézség
         // utána egy gombbal lehessen generálni
-        // egy másik gomb legyen clear-elésre/újra generálásra
+        // egy másik gomb legyen clear-elésre/újra generálásra ?
+
+    // extra szám gombok, amik megnyomásával be lehet írni számokat ?
+        // vagy csak legyenek alul számok, amik eltűnnek, ha egyikből mindet leraktam ?
 
 #endif // SUDOKUAPP_HPP

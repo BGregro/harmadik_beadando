@@ -53,9 +53,6 @@ void Gomb::action()
     _f();
 }
 
-// fv-t átadunk a gombnak, hogy mit hajtson végre, amikor megnyomjuk
- // funktor -> meghívható típus (fv jellegű)
-
 
 
 
