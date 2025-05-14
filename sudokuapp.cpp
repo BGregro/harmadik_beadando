@@ -91,74 +91,18 @@ void SudokuApp::generateBoard(Difficulty diff)
     }
 }
 
-// sor ellenőrzése
-void SudokuApp::checkRowValid(int row, int col, int ertek)
+void SudokuApp::checkConflicts()
 {
-    for (int c = 0; c < 9; ++c)
-    {
-        if (c != col && tiles[row][c]->getErtek() == ertek)
-        {
-            tiles[row][col]->setValid(false);
-            tiles[row][c]->setValid(false);
-            allValid = false;
-        }
-    }
-}
+    auto conflicts = sg.checkValid();
 
-// oszlop ellenőrzése
-void SudokuApp::checkColValid(int row, int col, int ertek)
-{
-    for (int r = 0; r < 9; ++r)
-    {
-        if (r != row && tiles[r][col]->getErtek() == ertek)
-        {
-            tiles[row][col]->setValid(false);
-            tiles[r][col]->setValid(false);
-            allValid = false;
-        }
-    }
-}
-
-// block ellenőrzése
-void SudokuApp::checkBlockValid(int row, int col, int ertek)
-{
-    int startRow = row - row % 3;
-    int startCol = col - col % 3;
-    for (int r = startRow; r < startRow + 3; ++r)
-    {
-        for (int c = startCol; c < startCol + 3; ++c)
-        {
-            if ((r != row || c != col) && tiles[r][c]->getErtek() == ertek)
-            {
-                tiles[row][col]->setValid(false);
-                tiles[r][c]->setValid(false);
-                allValid = false;
-            }
-        }
-    }
-}
-
-void SudokuApp::checkValid()
-{
     for (int r = 0; r < 9; ++r)
         for (int c = 0; c < 9; ++c)
             tiles[r][c]->setValid(true);
 
-    allValid = true;
+    for (const auto& [r, c] : conflicts)
+        tiles[r][c]->setValid(false);
 
-    // Végigmegyünk minden mezőn
-    for (int row = 0; row < 9; ++row)
-    {
-        for (int col = 0; col < 9; ++col)
-        {
-            int ertek = tiles[row][col]->getErtek();
-            if (ertek == 0) continue;
-
-            checkRowValid(row, col, ertek);
-            checkColValid(row, col, ertek);
-            checkBlockValid(row, col, ertek);
-        }
-    }
+    allValid = conflicts.empty();
 }
 
 void SudokuApp::update(int row, int col)
@@ -166,7 +110,7 @@ void SudokuApp::update(int row, int col)
     // board frissítése az aktuális értékkel
     sg.setCell(row, col, tiles[row][col]->getErtek());
 
-    checkValid();
+    checkConflicts();
 
     if (allValid && sg.isFull())
     {

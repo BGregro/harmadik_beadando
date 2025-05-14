@@ -1,5 +1,7 @@
 #include "sudokugame.hpp"
 
+using namespace std;
+
 const int gameSize = 9;
 
 SudokuGame::SudokuGame()
@@ -29,6 +31,57 @@ bool SudokuGame::isValidMove(int row, int col, int num)
         }
     }
     return true;
+}
+
+vector<pair<int, int>> SudokuGame::checkValid() const
+{
+    vector<pair<int, int>> conflicts;
+
+    for (int row = 0; row < 9; ++row)
+    {
+        for (int col = 0; col < 9; ++col)
+        {
+            int val = board[row][col];
+            if (val == 0) continue;
+
+            // sor ellenőrzése
+            for (int c = 0; c < 9; ++c)
+            {
+                if (c != col && board[row][c] == val)
+                {
+                    conflicts.push_back({row, col});
+                    conflicts.push_back({row, c});
+                }
+            }
+
+            // oszlop ellenőrzése
+            for (int r = 0; r < 9; ++r)
+            {
+                if (r != row && board[r][col] == val)
+                {
+                    conflicts.push_back({row, col});
+                    conflicts.push_back({r, col});
+                }
+            }
+
+            // block ellenőrzése
+            int startRow = row - row % 3;
+            int startCol = col - col % 3;
+            for (int r = startRow; r < startRow + 3; ++r)
+            {
+                for (int c = startCol; c < startCol + 3; ++c)
+                {
+                    if ((r != row || c != col) && board[r][c] == val)
+                    {
+                        conflicts.push_back({row, col});
+                        conflicts.push_back({r, c});
+                    }
+                }
+            }
+        }
+    }
+
+    return conflicts;
 }
 
 bool SudokuGame::isFull() const

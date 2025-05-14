@@ -25,10 +25,7 @@ public:
     void resetTiles();
     void generateBoard(Difficulty);
 
-    void checkRowValid(int, int, int);
-    void checkColValid(int, int, int);
-    void checkBlockValid(int, int, int);
-    void checkValid();
+    void checkConflicts();
 
     void update(int, int);
 };

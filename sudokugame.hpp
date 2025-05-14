@@ -10,12 +10,13 @@ protected:
 public:
     SudokuGame();
 
-    void setCell(int row, int col, int num);
-
-    int getCell(int, int);
+    std::vector<std::pair<int, int>> checkValid() const;
 
     bool isValidMove(int row, int col, int num);
     bool isFull() const;
+
+    void setCell(int row, int col, int num);
+    int getCell(int, int);
 };
 
 #endif // SUDOKUGAME_HPP
