@@ -8,6 +8,7 @@
 #include "gomb.hpp"
 #include "legordulowidget.hpp"
 
+
 class SudokuApp : public App
 {
 protected:
@@ -24,7 +25,11 @@ public:
     void resetTiles();
     void generateBoard(Difficulty);
 
-    void checkValid(int, int);
+    void checkRowValid(int, int, int);
+    void checkColValid(int, int, int);
+    void checkBlockValid(int, int, int);
+    void checkValid();
+
     void update(int, int);
 };
 

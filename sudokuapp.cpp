@@ -2,8 +2,8 @@
 #include "sudokugenerator.hpp"
 
 #include <iostream>
-using namespace std;
 
+using namespace std;
 using namespace genv;
 
 const int tileSize = 50;
@@ -91,56 +91,74 @@ void SudokuApp::generateBoard(Difficulty diff)
     }
 }
 
-void SudokuApp::checkValid(int row, int col)
+// sor ellenőrzése
+void SudokuApp::checkRowValid(int row, int col, int ertek)
 {
-    int ertek = sg.getCell(row, col);
-    tiles[row][col]->setErtek(0); // hogy magát ne ellenőrizze
-
-    allValid = true;
-
-    // azonos sor ellenőrzése
     for (int c = 0; c < 9; ++c)
     {
-        if (tiles[row][c]->getErtek() == ertek)
+        if (c != col && tiles[row][c]->getErtek() == ertek)
         {
+            tiles[row][col]->setValid(false);
             tiles[row][c]->setValid(false);
             allValid = false;
         }
-        else
-            tiles[row][c]->setValid(true);
     }
+}
 
-    // azonos oszlop ellenőrzése
+// oszlop ellenőrzése
+void SudokuApp::checkColValid(int row, int col, int ertek)
+{
     for (int r = 0; r < 9; ++r)
     {
-        if (tiles[r][col]->getErtek() == ertek)
+        if (r != row && tiles[r][col]->getErtek() == ertek)
         {
+            tiles[row][col]->setValid(false);
             tiles[r][col]->setValid(false);
             allValid = false;
         }
-        else
-            tiles[r][col]->setValid(true);
     }
+}
 
-    // azonos blokk ellenőrzése
+// block ellenőrzése
+void SudokuApp::checkBlockValid(int row, int col, int ertek)
+{
     int startRow = row - row % 3;
     int startCol = col - col % 3;
-
     for (int r = startRow; r < startRow + 3; ++r)
     {
         for (int c = startCol; c < startCol + 3; ++c)
         {
-            if (tiles[r][c]->getErtek() == ertek)
+            if ((r != row || c != col) && tiles[r][c]->getErtek() == ertek)
             {
+                tiles[row][col]->setValid(false);
                 tiles[r][c]->setValid(false);
                 allValid = false;
             }
-            else
-                tiles[r][c]->setValid(true);
         }
     }
+}
 
-    tiles[row][col]->setErtek(ertek); // érték visszaállítása
+void SudokuApp::checkValid()
+{
+    for (int r = 0; r < 9; ++r)
+        for (int c = 0; c < 9; ++c)
+            tiles[r][c]->setValid(true);
+
+    allValid = true;
+
+    // Végigmegyünk minden mezőn
+    for (int row = 0; row < 9; ++row)
+    {
+        for (int col = 0; col < 9; ++col)
+        {
+            int ertek = tiles[row][col]->getErtek();
+            if (ertek == 0) continue;
+
+            checkRowValid(row, col, ertek);
+            checkColValid(row, col, ertek);
+            checkBlockValid(row, col, ertek);
+        }
+    }
 }
 
 void SudokuApp::update(int row, int col)
@@ -148,11 +166,11 @@ void SudokuApp::update(int row, int col)
     // board frissítése az aktuális értékkel
     sg.setCell(row, col, tiles[row][col]->getErtek());
 
-    checkValid(row, col);
+    checkValid();
 
     if (allValid && sg.isFull())
     {
-        std::cout << "nyert" << std::endl;
+        cout << "nyert" << endl;
         // TODO: ide a victory screen vagy ilyesmi
     }
 }
