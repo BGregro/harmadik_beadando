@@ -13,8 +13,8 @@ class SudokuApp : public App
 {
 protected:
     std::vector<std::vector<SudokuNumber*>> tiles;
-    SudokuGame sg;
-    Gomb *generate;
+    SudokuGame sudokuGame, generated;
+    Gomb *ujJatek, *reset, *clear;
     LegorduloWidget *difficulty;
     bool allValid;
 public:
@@ -23,6 +23,7 @@ public:
     Difficulty getDifficulty();
 
     void resetTiles();
+    void setBoard(SudokuGame);
     void generateBoard(Difficulty);
 
     void checkConflicts();
@@ -41,10 +42,13 @@ public:
 
     // a pálya eleinte ne legyen legenerálva
         // egy menüvel ki lehessen választani, hogy milyen a nehézség
-        // utána egy gombbal lehessen generálni
-        // egy másik gomb legyen clear-elésre/újra generálásra ?
+        // utána egy gombbal lehessen generálni (Új Játék gomb)
+        // clear gomb
+        // reset gomb, ami visszaállítja a generált pálya kezdeti állapotát ?
 
     // extra szám gombok, amik megnyomásával be lehet írni számokat ?
         // vagy csak legyenek alul számok, amik eltűnnek, ha egyikből mindet leraktam ?
+
+    // néhány példa pályát ki lehessen választani egy legördülő menüből (pl.: easy1, easy2, medium1, medium2, hard1, hard2)
 
 #endif // SUDOKUAPP_HPP

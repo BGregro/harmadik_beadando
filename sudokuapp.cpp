@@ -28,13 +28,21 @@ SudokuApp::SudokuApp(int szeles, int magas):
 
     }
 
-    generateBoard(Difficulty::Easy);
+    // generateBoard(Difficulty::Easy);
 
     vector<string> difficulties = {"Easy", "Medium", "Hard"};
     difficulty = new LegorduloWidget(this, 500, 50, 3, difficulties);
 
-    generate = new Gomb(this, 500, 150, 100, 50, "Generálás", [&](){generateBoard(getDifficulty());});
+    ujJatek = new Gomb(this, 500, 150, 120, 50, "New Game",
+                       [&](){generateBoard(getDifficulty());});
 
+    reset = new Gomb(this, 500, 210, 120, 50, "Reset Game",
+                     [&](){sudokuGame = generated;
+                           setBoard(sudokuGame);
+                          });
+
+    clear = new Gomb(this, 500, 270, 120, 50, "Clear",
+                     [&](){resetTiles();});
 
     for (Widget *w : widgets)
         w->draw();
@@ -70,17 +78,15 @@ void SudokuApp::resetTiles()
     }
 }
 
-void SudokuApp::generateBoard(Difficulty diff)
+void SudokuApp::setBoard(SudokuGame game)
 {
-    sg = SudokuGenerator::generate(diff);
-
     resetTiles();
 
     for (int row = 0; row < 9; ++row)
     {
         for (int col = 0; col < 9; ++col)
         {
-            int num = sg.getCell(row, col);
+            int num = game.getCell(row, col);
             if (num > 0)
             {
                 tiles[row][col]->setErtek(num);
@@ -91,9 +97,17 @@ void SudokuApp::generateBoard(Difficulty diff)
     }
 }
 
+void SudokuApp::generateBoard(Difficulty diff)
+{
+    sudokuGame = SudokuGenerator::generate(diff);
+    generated = sudokuGame;
+
+    setBoard(sudokuGame);
+}
+
 void SudokuApp::checkConflicts()
 {
-    auto conflicts = sg.checkValid();
+    auto conflicts = sudokuGame.checkValid();
 
     for (int r = 0; r < 9; ++r)
         for (int c = 0; c < 9; ++c)
@@ -108,17 +122,16 @@ void SudokuApp::checkConflicts()
 void SudokuApp::update(int row, int col)
 {
     // board frissítése az aktuális értékkel
-    sg.setCell(row, col, tiles[row][col]->getErtek());
+    sudokuGame.setCell(row, col, tiles[row][col]->getErtek());
 
     checkConflicts();
 
-    if (allValid && sg.isFull())
+    if (allValid && sudokuGame.isFull())
     {
         cout << "nyert" << endl;
         // TODO: ide a victory screen vagy ilyesmi
     }
 }
-
 
 
 
