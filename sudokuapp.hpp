@@ -27,6 +27,8 @@ public:
     void resetTiles();
     void setBoard(SudokuGame);
     void generateBoard(Difficulty);
+
+    void setAllValid();
     void setConflicts();
     void lockAll();
 
@@ -34,23 +36,5 @@ public:
     void showVictoryScreen();
     void update(int, int);
 };
-
-// Ötletek:
-    // sudoku-ban lock-olni a már kész sorokat/oszlopokat/3x3masokat
-    // TODO: highlight errors -> hogyan?
-        // amikor rossz számot ír be, akkor jelölje be az egyező számot is ?
-    // ?: nyilakkal navigalni tile-ok között?
-
-    // nem csak a kijelölt négyzet, de annak a sora és oszlopa is ki legyen jelölve?
-        // ez lehet olyan, hogy pl segítség bekapcsolása/kiválasztása
-
-    // extra szám gombok, amik megnyomásával be lehet írni számokat ?
-        // vagy csak legyenek alul számok, amik eltűnnek, ha egyikből mindet leraktam ?
-
-    // néhány példa pályát ki lehessen választani egy legördülő menüből (pl.: easy1, easy2, medium1, medium2, hard1, hard2)
-
-    // nyert képernyő:
-        // nyert felirat + zöldre változzanak a beírt számok?
-        // lockolni az összes számot
 
 #endif // SUDOKUAPP_HPP

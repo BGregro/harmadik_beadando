@@ -10,7 +10,8 @@ protected:
     std::string _text;
     genv::color bgColor, textColor;
 public:
-    StaticText(App *parent, int x, int y, int sx, int sy, std::string text);
+    StaticText(App *parent, int x, int y, int sx, int sy, std::string text,
+               genv::color bgC = genv::color(255,255,255), genv::color textC = genv::color(0,0,0));
 
     void setBGcolor(genv::color);
     void setTextColor(genv::color);

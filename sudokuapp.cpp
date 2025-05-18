@@ -105,6 +105,7 @@ void SudokuApp::setBoard(SudokuGame game)
     }
 }
 
+// generál egy egyértelműen megoldható pályát
 void SudokuApp::generateBoard(Difficulty diff)
 {
     sudokuGame = SudokuGenerator::generate(diff);
@@ -113,14 +114,19 @@ void SudokuApp::generateBoard(Difficulty diff)
     setBoard(sudokuGame);
 }
 
+void SudokuApp::setAllValid()
+{
+    for (int r = 0; r < 9; ++r)
+        for (int c = 0; c < 9; ++c)
+            tiles[r][c]->setValid(true);
+}
+
 // rossz szám beírása esetén kijelöli a vele ütköző számokat
 void SudokuApp::setConflicts()
 {
     auto conflicts = sudokuGame.checkValid();
 
-    for (int r = 0; r < 9; ++r)
-        for (int c = 0; c < 9; ++c)
-            tiles[r][c]->setValid(true);
+    setAllValid();
 
     for (const auto& [r, c] : conflicts)
         tiles[r][c]->setValid(false);
@@ -142,7 +148,8 @@ void SudokuApp::showVictoryScreen()
     int textWidth = gout.twidth(msg);
     int centerX = (szelesseg - textWidth) / 2;
 
-    victoryText = new StaticText(this, centerX, 20, textWidth + 20, 40, msg);
+    victoryText = new StaticText(this, centerX, 20, textWidth + 20, 40, msg,
+                                 color(200, 255, 200), color(0, 80, 0));
 
     lockAll();
 }

@@ -4,8 +4,9 @@
 using namespace std;
 using namespace genv;
 
-StaticText::StaticText(App *parent, int x, int y, int sx, int sy, string text):
-    Widget(parent, x, y, sx, sy), _text(text), bgColor(color(255,255,255)), textColor(color(0,0,0))
+StaticText::StaticText(App *parent, int x, int y, int sx, int sy,
+                       string text, color bgC, color textC):
+    Widget(parent, x, y, sx, sy), _text(text), bgColor(bgC), textColor(textC)
 {}
 
 void StaticText::draw() const

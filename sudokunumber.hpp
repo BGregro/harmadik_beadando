@@ -24,10 +24,6 @@ public:
     void setErtek(int);
     void ujErtek(int);
     void setLocked(bool lock);
-    /*
-    void novelNum();
-    void csokkentNum();
-    */
     void clear();
 
     void setValid(bool);
@@ -37,10 +33,5 @@ public:
     int getCol() const;
 
 };
-
-// TODO:
-    // lehessen növelni le/fel gombokkal is?
-    // ertek csak 1-9 között legyen és legyen egy külön state törölt-re?
-
 
 #endif // SUDOKUNUMBER_HPP

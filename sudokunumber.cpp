@@ -5,7 +5,7 @@
 using namespace genv;
 using namespace std;
 
-const color black(0,0,0), grey(200,200,200), white(255,255,255), red(255,0,0);
+const color black(0,0,0), grey(220, 220, 220), white(255,255,255), red(255,0,0), blue(210, 230, 255);
 const int defaultMin = 0, defaultMax = 9;
 
 enum State
@@ -27,7 +27,7 @@ SudokuNumber::SudokuNumber(App *parent, int _x, int _y, int _sx, int _sy,
 void SudokuNumber::draw() const
 {
     if (locked)
-        gout << color(173, 216, 230);
+        gout << blue;
     else if (selected)
         gout << grey;
     else
@@ -108,19 +108,6 @@ void SudokuNumber::setLocked(bool lock)
 {
     locked = lock;
 }
-/*
-void SudokuNumber::novelNum()
-{
-    if (ertek < maxErtek)
-        ++ertek;
-}
-
-void SudokuNumber::csokkentNum()
-{
-    if (ertek > minErtek)
-        --ertek;
-}
-*/
 
 void SudokuNumber::setValid(bool newValid)
 {
