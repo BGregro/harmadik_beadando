@@ -9,6 +9,7 @@ SOURCES += \
         legordulowidget.cpp \
         main.cpp \
         graphics/graphics.cpp \
+        statictext.cpp \
         sudokuapp.cpp \
         sudokugame.cpp \
         sudokugenerator.cpp \
@@ -35,6 +36,7 @@ HEADERS += \
     app.hpp \
     gomb.hpp \
     legordulowidget.hpp \
+    statictext.hpp \
     sudokuapp.hpp \
     sudokugame.hpp \
     sudokugenerator.hpp \

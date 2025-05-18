@@ -42,7 +42,7 @@ void Gomb::handle(event ev)
             action();
             push();
         }
-            else if (ev.button == -btn_left)
+        else if (ev.button == -btn_left)
             unpush();
     }
 

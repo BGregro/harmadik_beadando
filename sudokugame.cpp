@@ -10,6 +10,7 @@ SudokuGame::SudokuGame()
         board.push_back({0,0,0,0,0,0,0,0,0});
 }
 
+
 bool SudokuGame::isValidMove(int row, int col, int num)
 {
     // sor, oszlop check
@@ -33,6 +34,7 @@ bool SudokuGame::isValidMove(int row, int col, int num)
     return true;
 }
 
+// visszaadja az olyan összes mező koordináta párját, aminek az értéke ütközik egy másikkal
 vector<pair<int, int>> SudokuGame::checkValid() const
 {
     vector<pair<int, int>> conflicts;
@@ -84,6 +86,7 @@ vector<pair<int, int>> SudokuGame::checkValid() const
     return conflicts;
 }
 
+// ellenőrzi, hogy tele van-e a pálya
 bool SudokuGame::isFull() const
 {
     for (int i = 0; i < gameSize; i++)

@@ -3,7 +3,6 @@
 #include <random>
 #include <ctime>
 #include <functional>
-#include <iostream>
 
 using namespace std;
 
@@ -12,9 +11,12 @@ bool solve(SudokuGame& game, int row = 0, int col = 0)
 {
     static std::mt19937 rng(std::random_device{}());
 
-    if (row == 9) return true;
-    if (col == 9) return solve(game, row + 1, 0);
-    if (game.getCell(row, col) != 0) return solve(game, row, col + 1);
+    if (row == 9)
+        return true;
+    if (col == 9)
+        return solve(game, row + 1, 0);
+    if (game.getCell(row, col) != 0)
+        return solve(game, row, col + 1);
 
     vector<int> nums{1,2,3,4,5,6,7,8,9};
     // random sorrendbe rendezi a számokat
@@ -36,6 +38,7 @@ bool solve(SudokuGame& game, int row = 0, int col = 0)
     return false;
 }
 
+// difficulty alapján megadja, hogy mennyi mező legyen üres
 int holesForDifficulty(Difficulty d)
 {
     switch (d)
@@ -98,6 +101,7 @@ int countSolutions(SudokuGame game)
     return solutions;
 }
 
+// generál egy egyételműen megoldható pályát
 SudokuGame SudokuGenerator::generate(Difficulty diff)
 {
     SudokuGame filled;
@@ -113,11 +117,10 @@ SudokuGame SudokuGenerator::generate(Difficulty diff)
         for (int col = 0; col < 9; ++col)
             indices.emplace_back(row, col);
 
-    // index párok random sorrendbe keverése
+    // index párok random sorrendbe keverése (mt19937 - véletlenszám generátor)
     static std::mt19937 rng(std::random_device{}());
     shuffle(indices.begin(), indices.end(), rng);
 
-    // TODO: ez mindig a pálya elejéről töröl -> kijavítani
     for (auto [row, col] : indices)
     {
         int backup = filled.getCell(row, col);

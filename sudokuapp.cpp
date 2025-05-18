@@ -11,7 +11,6 @@ const int tileSize = 50;
 SudokuApp::SudokuApp(int szeles, int magas):
     App(szeles, magas), allValid(true)
 {
-
     tiles.resize(9, std::vector<SudokuNumber*>(9, nullptr)); // a 2D-s vektor inicializálása
 
     // 9x9-es palyahoz widgetek letrehozasa
@@ -19,30 +18,37 @@ SudokuApp::SudokuApp(int szeles, int magas):
     {
         for (int col = 0; col < 9; ++col)
         {
-            int x = (25+col) + tileSize*col + (col/3 * 3);
-            int y = (25+row) + tileSize*row + (row/3 * 3);
+            int x = (75+col) + tileSize*col + (col/3 * 3);
+            int y = (75+row) + tileSize*row + (row/3 * 3);
 
             tiles[row][col] = new SudokuNumber(this, x, y, tileSize, tileSize, row, col, 0,
                                                [&](int row, int col){update(row, col);});
         }
-
     }
 
-    // generateBoard(Difficulty::Easy);
-
     vector<string> difficulties = {"Easy", "Medium", "Hard"};
-    difficulty = new LegorduloWidget(this, 500, 50, 3, difficulties);
+    difficultyMenu = new LegorduloWidget(this, 550, 75, 3, difficulties);
 
-    ujJatek = new Gomb(this, 500, 150, 120, 50, "New Game",
-                       [&](){generateBoard(getDifficulty());});
+    ujJatekBtn = new Gomb(this, 550, 150, 120, 50, "New Game",
+                       [&](){
+                           removeVictoryText();
+                           generateBoard(getDifficulty());
+                        });
 
-    reset = new Gomb(this, 500, 210, 120, 50, "Reset Game",
-                     [&](){sudokuGame = generated;
-                           setBoard(sudokuGame);
-                          });
+    resetBtn = new Gomb(this, 550, 210, 120, 50, "Reset Game",
+                        [&](){
+                            removeVictoryText();
+                            sudokuGame = generated;
+                            setBoard(sudokuGame);
+                        });
 
-    clear = new Gomb(this, 500, 270, 120, 50, "Clear",
-                     [&](){resetTiles();});
+    clearBtn = new Gomb(this, 550, 270, 120, 50, "Clear",
+                        [&](){
+                            removeVictoryText();
+                            resetTiles();
+                        });
+
+    victoryText = nullptr;
 
     for (Widget *w : widgets)
         w->draw();
@@ -50,9 +56,10 @@ SudokuApp::SudokuApp(int szeles, int magas):
     gout << refresh;
 }
 
+// difficulty beállítása kiválasztó widgetből
 Difficulty SudokuApp::getDifficulty()
 {
-    string diff = difficulty->getSelected();
+    string diff = difficultyMenu->getSelected();
 
     if (diff == "Easy")
         return Difficulty::Easy;
@@ -78,6 +85,7 @@ void SudokuApp::resetTiles()
     }
 }
 
+// egy játék alapján beállítja a kijelzendő számokat
 void SudokuApp::setBoard(SudokuGame game)
 {
     resetTiles();
@@ -90,8 +98,8 @@ void SudokuApp::setBoard(SudokuGame game)
             if (num > 0)
             {
                 tiles[row][col]->setErtek(num);
-                tiles[row][col]->setLocked(true); // a generált pálya számait ne lehessen változtatni
-
+                // a generált pálya számait ne lehessen változtatni
+                tiles[row][col]->setLocked(true);
             }
         }
     }
@@ -105,7 +113,8 @@ void SudokuApp::generateBoard(Difficulty diff)
     setBoard(sudokuGame);
 }
 
-void SudokuApp::checkConflicts()
+// rossz szám beírása esetén kijelöli a vele ütköző számokat
+void SudokuApp::setConflicts()
 {
     auto conflicts = sudokuGame.checkValid();
 
@@ -119,24 +128,47 @@ void SudokuApp::checkConflicts()
     allValid = conflicts.empty();
 }
 
+void SudokuApp::lockAll()
+{
+    for (int r = 0; r < 9; ++r)
+        for (int c = 0; c < 9; ++c)
+            tiles[r][c]->setLocked(true);
+}
+
+// victory felirat megjelenítése + összes mező lock-olása
+void SudokuApp::showVictoryScreen()
+{
+    string msg = "Gratulálunk! Megoldottad a feladatot!";
+    int textWidth = gout.twidth(msg);
+    int centerX = (szelesseg - textWidth) / 2;
+
+    victoryText = new StaticText(this, centerX, 20, textWidth + 20, 40, msg);
+
+    lockAll();
+}
+
+// kitörli a victory widgetet
+void SudokuApp::removeVictoryText()
+{
+    if (victoryText != nullptr) {
+        victoryText->clearWidget();
+        widgets.erase(remove(widgets.begin(), widgets.end(), victoryText), widgets.end());
+        delete victoryText;
+        victoryText = nullptr;
+    }
+}
+
 void SudokuApp::update(int row, int col)
 {
     // board frissítése az aktuális értékkel
     sudokuGame.setCell(row, col, tiles[row][col]->getErtek());
 
-    checkConflicts();
+    setConflicts();
 
     if (allValid && sudokuGame.isFull())
     {
         cout << "nyert" << endl;
-        // TODO: ide a victory screen vagy ilyesmi
+        showVictoryScreen();
     }
 }
-
-
-
-
-
-
-
 

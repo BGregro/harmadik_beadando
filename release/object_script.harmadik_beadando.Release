@@ -3,6 +3,7 @@ release/gomb.o
 release/legordulowidget.o
 release/main.o
 release/graphics.o
+release/statictext.o
 release/sudokuapp.o
 release/sudokugame.o
 release/sudokugenerator.o

@@ -13,6 +13,7 @@ protected:
     bool selected;
 public:
     Widget(App *parent, int x, int y, int sx, int sy);
+    virtual ~Widget() {}
 
     virtual bool is_selected(int mx, int my);
     virtual void draw() const = 0;

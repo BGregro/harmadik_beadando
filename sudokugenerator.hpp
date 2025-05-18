@@ -1,4 +1,4 @@
-#ifndef SUDOKUGENERATOR_HPP
+    #ifndef SUDOKUGENERATOR_HPP
 #define SUDOKUGENERATOR_HPP
 
 #include "sudokugame.hpp"
@@ -11,7 +11,7 @@ enum class Difficulty {
 
 class SudokuGenerator {
 public:
-    // Visszaad egy egyértelműen megoldható kezdő SudokuGame pályát
+    // Visszaad egy egyértelműen megoldható SudokuGame pályát
     static SudokuGame generate(Difficulty);
 };
 

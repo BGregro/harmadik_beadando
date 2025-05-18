@@ -27,11 +27,13 @@ SudokuNumber::SudokuNumber(App *parent, int _x, int _y, int _sx, int _sy,
 void SudokuNumber::draw() const
 {
     if (locked)
-        gout << color(173, 216, 230) << move_to(x, y) << box(sx, sy);
+        gout << color(173, 216, 230);
     else if (selected)
-        gout << grey << move_to(x, y) << box(sx, sy);
+        gout << grey;
     else
-        gout << white << move_to(x, y) << box(sx, sy);
+        gout << white;
+
+    gout << move_to(x, y) << box(sx, sy);
 
     int numH = gout.cascent();
     int numW = gout.twidth("1");
@@ -51,17 +53,23 @@ void SudokuNumber::draw() const
 
 void SudokuNumber::handle(event ev)
 {
+    if (locked)
+        return;
+
     if (ev.type == ev_key && ev.keycode > 0)
     {
-        if (ev.keycode == key_backspace)
+        if (ev.keycode == key_backspace || ev.keyutf8 == "0") {
             clear();
+            return;
+        }
 
         // szam beirasa a widgetbe
-        if (!ev.keyutf8.empty() && ev.keyutf8.size() == 1 &&
-            ev.keyutf8[0] >= '0' && ev.keyutf8[0] <= '9')
-        {
-            int number = ev.keyutf8[0] - '0';
-            ujErtek(number);
+        if (!ev.keyutf8.empty() && ev.keyutf8.size() == 1) {
+            char ch = ev.keyutf8[0];
+            if (ch >= '1' && ch <= '9') {
+                int number = ch - '0';
+                ujErtek(number);
+            }
         }
     }
 }

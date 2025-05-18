@@ -7,6 +7,7 @@
 #include "sudokugenerator.hpp"
 #include "gomb.hpp"
 #include "legordulowidget.hpp"
+#include "statictext.hpp"
 
 
 class SudokuApp : public App
@@ -14,8 +15,9 @@ class SudokuApp : public App
 protected:
     std::vector<std::vector<SudokuNumber*>> tiles;
     SudokuGame sudokuGame, generated;
-    Gomb *ujJatek, *reset, *clear;
-    LegorduloWidget *difficulty;
+    Gomb *ujJatekBtn, *resetBtn, *clearBtn;
+    LegorduloWidget *difficultyMenu;
+    StaticText *victoryText;
     bool allValid;
 public:
     SudokuApp(int, int);
@@ -25,9 +27,11 @@ public:
     void resetTiles();
     void setBoard(SudokuGame);
     void generateBoard(Difficulty);
+    void setConflicts();
+    void lockAll();
 
-    void checkConflicts();
-
+    void removeVictoryText();
+    void showVictoryScreen();
     void update(int, int);
 };
 
@@ -40,15 +44,13 @@ public:
     // nem csak a kijelölt négyzet, de annak a sora és oszlopa is ki legyen jelölve?
         // ez lehet olyan, hogy pl segítség bekapcsolása/kiválasztása
 
-    // a pálya eleinte ne legyen legenerálva
-        // egy menüvel ki lehessen választani, hogy milyen a nehézség
-        // utána egy gombbal lehessen generálni (Új Játék gomb)
-        // clear gomb
-        // reset gomb, ami visszaállítja a generált pálya kezdeti állapotát ?
-
     // extra szám gombok, amik megnyomásával be lehet írni számokat ?
         // vagy csak legyenek alul számok, amik eltűnnek, ha egyikből mindet leraktam ?
 
     // néhány példa pályát ki lehessen választani egy legördülő menüből (pl.: easy1, easy2, medium1, medium2, hard1, hard2)
+
+    // nyert képernyő:
+        // nyert felirat + zöldre változzanak a beírt számok?
+        // lockolni az összes számot
 
 #endif // SUDOKUAPP_HPP
